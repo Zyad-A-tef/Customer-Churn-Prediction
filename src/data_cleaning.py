@@ -42,5 +42,5 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 if __name__ == "__main__":
     df_raw = load_data()
     df_clean = clean_data(df_raw)
-    df_clean.to_csv("data/dataset.csv", index=False)
-    print("\nSaved cleaned data to data/dataset.csv")
+    df_clean.to_csv("../data/dataset.csv", index=False)
+    print("\nSaved cleaned data to ../data/dataset.csv")

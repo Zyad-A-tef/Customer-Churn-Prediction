@@ -3,19 +3,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 def encode_features(df: pd.DataFrame) -> pd.DataFrame:
-    binary_cols = [
-        c for c in df.columns
-        if df[c].dtype == "object" and df[c].nunique() == 2
-    ]
-    multi_cols = [
-        c for c in df.columns
-        if df[c].dtype == "object" and df[c].nunique() > 2
-    ]
+    df_enc = df.copy()
+    
+    # Find all object columns that need encoding
+    object_cols = df_enc.select_dtypes(include=['object']).columns.tolist()
+    
+    binary_cols = [c for c in object_cols if df_enc[c].nunique() == 2]
+    multi_cols = [c for c in object_cols if df_enc[c].nunique() > 2]
 
     print("Binary (Label Encode):", binary_cols)
     print("Multi-value (One-Hot):", multi_cols)
 
-    df_enc = df.copy()
     le = LabelEncoder()
     for col in binary_cols:
         df_enc[col] = le.fit_transform(df_enc[col])
